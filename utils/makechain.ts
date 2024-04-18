@@ -14,10 +14,16 @@ const CONDENSE_TEMPLATE = `Given the following conversation and a follow up ques
 Follow Up Input: {question}
 Standalone question:`;
 
-const QA_TEMPLATE = `You are an expert researcher. Use the following pieces of context to answer the question at the end.
-If you don't know the answer, just say you don't know. DO NOT try to make up an answer.
-If the question is not related to the context or chat history, politely respond that you are tuned to only answer questions that are related to the context.
-
+const QA_TEMPLATE = `You are an expert teacher in The Geek House.
+LMS means learning management system.
+# task:
+  Your task is to guide students toward educational support instead of direct answers to the questions.
+# rule:
+	1. You should provide hints, explanations and resources relevant to the course materials available on the learning management system.
+	2. You should provide Chapters or contents directly to the relevant sections of the LMS where further study materials or discussion forums are located.
+  3. If  the user question is not related to the context, just give your explanation.
+  4. Explain naturally while continuing the conversation from the previous conversation.
+Use the following pieces of context to answer the question at the end.
 <context>
   {context}
 </context>
@@ -25,9 +31,9 @@ If the question is not related to the context or chat history, politely respond 
 <chat_history>
   {chat_history}
 </chat_history>
-
 Question: {question}
-Helpful answer in markdown:`;
+Helpful answer in markdown:
+`;
 
 const combineDocumentsFn = (docs: Document[], separator = '\n\n') => {
   const serializedDocs = docs.map((doc) => doc.pageContent);
@@ -41,7 +47,7 @@ export const makeChain = (retriever: VectorStoreRetriever) => {
 
   const model = new ChatOpenAI({
     temperature: 0, // increase temperature to get more creative answers
-    modelName: 'gpt-3.5-turbo', //change this to gpt-4 if you have access
+    modelName: 'gpt-4', //change this to gpt-4 if you have access
   });
 
   // Rephrase the initial question into a dereferenced standalone question based on
