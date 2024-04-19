@@ -42,7 +42,7 @@ export const run = async () => {
     await PineconeStore.fromDocuments(docs, embeddings, {
       pineconeIndex: index,
       namespace: PINECONE_NAME_SPACE,
-      // textKey: 'text',
+      textKey: 'text',
     });
   } catch (error) {
     console.log('error', error);
